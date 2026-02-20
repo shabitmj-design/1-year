@@ -4,20 +4,55 @@ const gothicPhase = document.getElementById('gothicPhase');
 const cherryPhase = document.getElementById('cherryPhase');
 const fireworksContainer = document.getElementById('fireworksContainer');
 const blossomsBg = document.getElementById('blossomsBg');
+const letterContainer = document.getElementById('letterContainer');
 
 let hasRevealed = false;
+
+// Add atmospheric particles to gothic page
+function createGothicParticles() {
+    const particleBg = document.getElementById('particleBg');
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.style.position = 'absolute';
+        particle.style.width = Math.random() * 3 + 'px';
+        particle.style.height = particle.style.width;
+        particle.style.background = `rgba(212, 175, 55, ${Math.random() * 0.5 + 0.1})`;
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.top = Math.random() * 100 + '%';
+        particle.style.borderRadius = '50%';
+        particle.style.animation = `twinkle ${Math.random() * 3 + 2}s infinite`;
+        particle.style.animationDelay = Math.random() * 2 + 's';
+        particleBg.appendChild(particle);
+    }
+}
+
+// Add CSS animation for particles
+const particleStyle = document.createElement('style');
+particleStyle.textContent = `
+    @keyframes twinkle {
+        0%, 100% {
+            opacity: 0.2;
+        }
+        50% {
+            opacity: 0.8;
+        }
+    }
+`;
+document.head.appendChild(particleStyle);
+
+createGothicParticles();
 
 revealBtn.addEventListener('click', () => {
     if (hasRevealed) return;
     hasRevealed = true;
 
     revealBtn.disabled = true;
-    revealBtn.style.opacity = '0.5';
+    revealBtn.style.pointerEvents = 'none';
 
     // Create fireworks explosion
     createFireworks();
 
-    // Hide gothic phase after a short delay
+    // Hide gothic phase and show cherry phase
     setTimeout(() => {
         gothicPhase.classList.add('hidden');
         cherryPhase.classList.remove('hidden');
@@ -28,69 +63,71 @@ revealBtn.addEventListener('click', () => {
 function createFireworks() {
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
-    const particleCount = 80;
+    const particleCount = 120;
 
     for (let i = 0; i < particleCount; i++) {
         const angle = (Math.PI * 2 * i) / particleCount;
-        const velocity = 5 + Math.random() * 10;
-        const endX = centerX + Math.cos(angle) * velocity * 50;
-        const endY = centerY + Math.sin(angle) * velocity * 50;
+        const velocity = 5 + Math.random() * 12;
+        const endX = centerX + Math.cos(angle) * velocity * 60;
+        const endY = centerY + Math.sin(angle) * velocity * 60;
 
         const particle = document.createElement('div');
         particle.className = 'particle';
         particle.style.left = centerX + 'px';
         particle.style.top = centerY + 'px';
-        particle.style.width = (3 + Math.random() * 6) + 'px';
+        particle.style.width = (2 + Math.random() * 8) + 'px';
         particle.style.height = particle.style.width;
         particle.style.background = getRandomBlossomColor();
-        particle.style.setProperty('--endX', (endX - centerX) + 'px');
-        particle.style.setProperty('--endY', (endY - centerY) + 'px');
+        particle.style.boxShadow = `0 0 ${Math.random() * 10 + 5}px ${particle.style.background}`;
 
         fireworksContainer.appendChild(particle);
 
         // Animate particle
-        particle.style.animation = `explode 1.5s ease-out forwards`;
         particle.style.setProperty('--x', (endX - centerX) + 'px');
         particle.style.setProperty('--y', (endY - centerY) + 'px');
+        particle.style.animation = `explode ${1.5 + Math.random() * 0.5}s ease-out forwards`;
 
         setTimeout(() => {
             particle.remove();
-        }, 1500);
+        }, 2000);
     }
 }
 
 function createCherryBlossoms() {
-    const blossomCount = 40;
+    const blossomCount = 50;
 
     for (let i = 0; i < blossomCount; i++) {
         const blossom = document.createElement('div');
         blossom.className = 'blossom';
         blossom.style.left = Math.random() * 100 + '%';
-        blossom.style.top = -20 + 'px';
-        blossom.style.animationDelay = (Math.random() * 4) + 's';
-        blossom.style.animationDuration = (5 + Math.random() * 3) + 's';
+        blossom.style.top = -30 + 'px';
+        blossom.style.animationDelay = (Math.random() * 5) + 's';
+        blossom.style.animationDuration = (6 + Math.random() * 4) + 's';
         blossom.style.background = getRandomBlossomColor();
 
         blossomsBg.appendChild(blossom);
     }
 
     // Continuously add new blossoms
-    setInterval(() => {
-        if (cherryPhase.classList.contains('hidden')) return;
+    const blossomInterval = setInterval(() => {
+        if (cherryPhase.classList.contains('hidden')) {
+            clearInterval(blossomInterval);
+            return;
+        }
 
         const blossom = document.createElement('div');
         blossom.className = 'blossom';
         blossom.style.left = Math.random() * 100 + '%';
-        blossom.style.top = -20 + 'px';
-        blossom.style.animationDuration = (5 + Math.random() * 3) + 's';
+        blossom.style.top = -30 + 'px';
+        blossom.style.animationDuration = (6 + Math.random() * 4) + 's';
         blossom.style.background = getRandomBlossomColor();
 
         blossomsBg.appendChild(blossom);
 
         setTimeout(() => {
             blossom.remove();
-        }, 8000);
-    }, 300);
+        }, 10000);
+    }, 400);
 }
 
 function getRandomBlossomColor() {
@@ -100,14 +137,14 @@ function getRandomBlossomColor() {
         '#ffb6d9',  // pale pink
         '#ffc0cb',  // pink
         '#ff1493',  // deep pink
-        '#ffffff',  // white
+        '#ffffff',  // white (for highlights)
     ];
     return colors[Math.floor(Math.random() * colors.length)];
 }
 
 // Update particle animation with CSS custom properties
-const style = document.createElement('style');
-style.textContent = `
+const explodeStyle = document.createElement('style');
+explodeStyle.textContent = `
     @keyframes explode {
         0% {
             transform: translate(0, 0) scale(1);
@@ -119,4 +156,4 @@ style.textContent = `
         }
     }
 `;
-document.head.appendChild(style);
+document.head.appendChild(explodeStyle);
