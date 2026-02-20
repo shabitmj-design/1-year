@@ -10,10 +10,38 @@
     <div class="container gothic-theme" id="container">
         <!-- Gothic Phase -->
         <div class="gothic-phase" id="gothicPhase">
-            <div class="gothic-content">
-                <h1 class="gothic-title">A Message For You</h1>
-                <button class="reveal-btn" id="revealBtn">Open</button>
+            <div class="gothic-background">
+                <div class="floating-orb" style="--delay: 0s; --size: 100px;"></div>
+                <div class="floating-orb" style="--delay: 2s; --size: 150px;"></div>
+                <div class="floating-orb" style="--delay: 4s; --size: 80px;"></div>
             </div>
+
+            <div class="gothic-content">
+                <div class="decorative-line"></div>
+                
+                <h1 class="gothic-title">A Year of Beautiful Memories</h1>
+                
+                <p class="gothic-subtitle">One year of friendship that means everything to me</p>
+                
+                <div class="gothic-symbols">
+                    <span class="symbol">✦</span>
+                    <span class="symbol">✦</span>
+                    <span class="symbol">✦</span>
+                </div>
+
+                <button class="reveal-btn" id="revealBtn">
+                    <span class="btn-text">Reveal My Heart</span>
+                    <span class="btn-glow"></span>
+                </button>
+
+                <div class="gothic-bottom-text">
+                    <p>Click to transform and read my letter</p>
+                </div>
+                
+                <div class="decorative-line"></div>
+            </div>
+
+            <div class="particle-bg" id="particleBg"></div>
         </div>
 
         <!-- Fireworks Container -->
@@ -23,6 +51,75 @@
         <div class="cherry-blossom-phase hidden" id="cherryPhase">
             <div class="blossoms-background" id="blossomsBg"></div>
             
+            <!-- Sky gradient -->
+            <div class="sky"></div>
+
+            <!-- Cherry Blossom Tree -->
+            <div class="tree-container" id="treeContainer">
+                <svg class="tree-svg" viewBox="0 0 400 600" xmlns="http://www.w3.org/2000/svg">
+                    <!-- Trunk -->
+                    <g class="tree-trunk">
+                        <path d="M 200 600 Q 195 500 200 400 Q 205 300 200 200" stroke="#8b7355" stroke-width="8" fill="none" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Branches -->
+                    <g class="tree-branches">
+                        <!-- Left branches -->
+                        <path class="branch" d="M 200 300 Q 150 280 120 250" stroke="#a0826d" stroke-width="5" fill="none" stroke-linecap="round"/>
+                        <path class="branch" d="M 200 350 Q 130 350 80 380" stroke="#a0826d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="branch" d="M 200 250 Q 140 200 100 150" stroke="#a0826d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        
+                        <!-- Right branches -->
+                        <path class="branch" d="M 200 300 Q 250 280 280 250" stroke="#a0826d" stroke-width="5" fill="none" stroke-linecap="round"/>
+                        <path class="branch" d="M 200 350 Q 270 350 320 380" stroke="#a0826d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                        <path class="branch" d="M 200 250 Q 260 200 300 150" stroke="#a0826d" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    </g>
+
+                    <!-- Blossoms clusters (will be filled with animation) -->
+                    <g class="blossoms-cluster" id="blossomCluster1">
+                        <circle class="blossom-flower" cx="120" cy="250" r="25" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="140" cy="240" r="22" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="110" cy="270" r="20" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="150" cy="270" r="23" fill="url(#blossom-gradient)"/>
+                    </g>
+                    
+                    <g class="blossoms-cluster" id="blossomCluster2">
+                        <circle class="blossom-flower" cx="280" cy="250" r="25" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="260" cy="240" r="22" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="290" cy="270" r="20" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="250" cy="270" r="23" fill="url(#blossom-gradient)"/>
+                    </g>
+
+                    <g class="blossoms-cluster" id="blossomCluster3">
+                        <circle class="blossom-flower" cx="100" cy="150" r="24" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="125" cy="145" r="21" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="90" cy="170" r="19" fill="url(#blossom-gradient)"/>
+                    </g>
+
+                    <g class="blossoms-cluster" id="blossomCluster4">
+                        <circle class="blossom-flower" cx="300" cy="150" r="24" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="275" cy="145" r="21" fill="url(#blossom-gradient)"/>
+                        <circle class="blossom-flower" cx="310" cy="170" r="19" fill="url(#blossom-gradient)"/>
+                    </g>
+
+                    <!-- Gradients -->
+                    <defs>
+                        <radialGradient id="blossom-gradient">
+                            <stop offset="0%" style="stop-color:#ffb7c5;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#ff69b4;stop-opacity:0.8" />
+                        </radialGradient>
+                    </defs>
+                </svg>
+
+                <!-- Soil -->
+                <div class="soil">
+                    <div class="soil-layer soil-layer-1"></div>
+                    <div class="soil-layer soil-layer-2"></div>
+                    <div class="soil-layer soil-layer-3"></div>
+                </div>
+            </div>
+            
+            <!-- Letter Container -->
             <div class="letter-container" id="letterContainer">
                 <div class="letter">
                     <div class="letter-header">
